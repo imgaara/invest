@@ -24,11 +24,8 @@ mongoimport -d f -c nav --type csv --file "$CRAWL_HOME/fund_earning_perday_${dat
 }
 popd
 
-while read line; do
-  if [[ -z "$line" ]]; then
-    continue
-  fi
-  $TOOLS_DIR/mongo_export_nav.sh "$line" || {
-    echo "- failed to export fund $line from mongodb"
-  }
-done < "$TOOLS_DIR/watch_funds.txt"
+echo "+ export watched nav..."
+$TOOLS_DIR/mongo_export_nav.sh
+
+echo "+ calculating tradelines..."
+python3 $TOOLS_DIR/tradeline.py

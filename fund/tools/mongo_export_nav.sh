@@ -10,7 +10,7 @@ set -euo pipefail
 
 function export_watched() {
   code="$1"
-  query="{"code":{"\$eq":$code}}"
+  query="{\"code\":{\"\$eq\":\"$code\"}}"
   echo "$query"
   mongoexport -h localhost -d f -c nav --type=csv \
    --fields=fund_type,code,name,date,total_day,net_value,accumulative_value,rate_day,buy_status,sell_status,profit \
@@ -20,4 +20,11 @@ function export_watched() {
    --out="$NAV_DIR/$code.csv"
 }
 
-export_watched "$1"
+while read line; do
+  if [[ -z "$line" ]]; then
+    continue
+  fi
+  export_watched "$line" || {
+    echo "- failed to export fund $line from mongodb"
+  }
+done < "$DIR/watch_funds.txt"
