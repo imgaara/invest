@@ -12,7 +12,7 @@ set -euo pipefail
 echo "+ getting funds...end date: $date"
 
 pushd "$CRAWL_HOME"
-scrapy crawl fund_earning || {
+/Users/kangyu/.pyenv/shims/scrapy crawl fund_earning || {
   echo "- failed to crawl fund"
   exit 1
 }
@@ -28,4 +28,10 @@ echo "+ export watched nav..."
 $TOOLS_DIR/mongo_export_nav.sh
 
 echo "+ calculating tradelines..."
-python3 $TOOLS_DIR/tradeline.py
+/Users/kangyu/.pyenv/shims/python3 $TOOLS_DIR/tradeline.py
+
+echo "+ pushing navs..."
+pushd $DIR/..
+git ci . -m "update navs"
+git push
+popd

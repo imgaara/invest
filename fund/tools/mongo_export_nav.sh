@@ -12,7 +12,7 @@ function export_watched() {
   code="$1"
   query="{\"code\":{\"\$eq\":\"$code\"}}"
   echo "$query"
-  mongoexport -h localhost -d f -c nav --type=csv \
+  /usr/local/bin/mongoexport -h localhost -d f -c nav --type=csv \
    --fields=fund_type,code,name,date,total_day,net_value,accumulative_value,rate_day,buy_status,sell_status,profit \
    --noHeaderLine \
    -q "$query" \
