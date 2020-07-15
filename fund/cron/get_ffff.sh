@@ -19,7 +19,7 @@ pushd "$CRAWL_HOME"
 echo "+ fund crawled!"
 
 echo "+ importing funds to mongodb..."
-tail -n +1 "$CRAWL_HOME/fund_earning_perday_${date}.csv" | mongoimport -d f -c nav --type csv --columnsHaveTypes --mode=upsert --fields="fund_type.string(),code.string(),name.string(),date.string(),total_day.auto(),net_value.auto(),accumulative_value.auto(),rate_day.auto(),buy_status.string(),sell_status.string(),profit.string()" || {
+tail -n +1 "$CRAWL_HOME/fund_earning_perday_${date}.csv" | /usr/local/bin/mongoimport -d f -c nav --type csv --columnsHaveTypes --mode=upsert --fields="fund_type.string(),code.string(),name.string(),date.string(),total_day.auto(),net_value.auto(),accumulative_value.auto(),rate_day.auto(),buy_status.string(),sell_status.string(),profit.string()" || {
   echo "- failed to import funds to mongodb"
 }
 popd
