@@ -32,6 +32,7 @@ echo "+ calculating tradelines..."
 
 echo "+ pushing navs..."
 pushd $DIR/..
+git add .
 git ci . -m "update navs"
 git push
 popd
